@@ -57,6 +57,14 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
+    if (number < 0) {
+      return res.status(400).json({
+        number: number,
+        error: true,
+        message: "Negative numbers are not supported.",
+      });
+    }
+
   const properties = [];
 
   // Check for Armstrong
