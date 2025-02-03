@@ -6,7 +6,6 @@ const port = 3000;
 
 app.use(cors());
 
-
 function isPrime(n) {
   if (n <= 1) return false;
   for (let i = 2; i <= Math.sqrt(n); i++) {
@@ -57,13 +56,12 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-    if (number < 0) {
-      return res.status(400).json({
-        number: number,
-        error: true,
-        message: "Negative numbers are not supported.",
-      });
-    }
+  if (number < 0) {
+    return res.status(400).json({
+      number: number,
+      error: true,
+    });
+  }
 
   const properties = [];
 
