@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 function isPrime(n) {
   if (n <= 1) return false;
@@ -45,13 +45,30 @@ async function getFunFact(n) {
   }
 }
 
-// API route
+// Serverless function handler for Vercel
 app.get("/api/classify-number", async (req, res) => {
-  const number = parseInt(req.query.number);
+  const numberParam = req.query.number;
 
-  if (/^[a-zA-Z]+$/.test(number)) {
+  if (/^[a-zA-Z]+$/.test(numberParam)) {
     return res.status(400).json({
       number: "alphabet",
+      error: true,
+    });
+  }
+
+  if (!numberParam || numberParam === "") {
+    return res.status(400).json({
+      number: numberParam,
+      error: true,
+    });
+  }
+
+  const number = parseInt(numberParam);
+
+  // Check if the number is a valid integer
+  if (isNaN(number)) {
+    return res.status(400).json({
+      number: numberParam,
       error: true,
     });
   }
