@@ -64,6 +64,11 @@ async function getFunFact(n) {
 app.get("/api/classify-number", async (req, res) => {
   const numberParam = req.query.number;
 
+  if (!numberParam || numberParam.trim() === "") {
+    return res.status(400).json({
+      error: true,
+    });
+  }
   // Check if 'number' is an alphabetic string (invalid input)
   if (/^[a-zA-Z]+$/.test(numberParam)) {
     return res.status(400).json({
@@ -72,16 +77,9 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-  if (!numberParam || numberParam.trim() === "") {
-    return res.status(400).json({
-      error: true,
-    });
-  }
-
   const number = parseFloat(numberParam);
 
-
-  if (isNaN(number) || number !== parseInt(number)) {
+  if (isNaN(number) || number !== parseInt(numberParam)) {
     return res.status(400).json({
       number: numberParam,
       error: true,
