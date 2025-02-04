@@ -6,29 +6,35 @@ const port = 3000;
 
 app.use(cors({ origin: "*" }));
 
+// Helper Functions
+
 function isPrime(n) {
+  if (n < 0) return false; 
   if (n <= 1) return false;
   for (let i = 2; i <= Math.sqrt(n); i++) {
-    if (n % i === 0) return false;
+    if (n % i === 0) return false; 
   }
   return true;
 }
 
 function isPerfect(n) {
+  if (n < 0) return false; 
   const divisors = [];
   for (let i = 1; i < n; i++) {
     if (n % i === 0) divisors.push(i);
   }
-  return divisors.reduce((sum, num) => sum + num, 0) === n;
+  return divisors.reduce((sum, num) => sum + num, 0) === n; 
 }
 
 function isArmstrong(n) {
+  if (n < 0) return false; 
   const digits = n.toString().split("").map(Number);
   const power = digits.length;
-  return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === n;
+  return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === n; 
 }
 
 function digitSum(n) {
+  if (n < 0) return null; 
   return n
     .toString()
     .split("")
@@ -45,10 +51,12 @@ async function getFunFact(n) {
   }
 }
 
-// Serverless function handler for Vercel
+// API Route
+
 app.get("/api/classify-number", async (req, res) => {
   const numberParam = req.query.number;
 
+  // Check if 'number' is an alphabetic string (invalid input)
   if (/^[a-zA-Z]+$/.test(numberParam)) {
     return res.status(400).json({
       number: "alphabet",
@@ -56,26 +64,19 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-  if (!numberParam || numberParam === "") {
+  
+  if (!numberParam || numberParam.trim() === "") {
     return res.status(400).json({
-      number: numberParam,
       error: true,
     });
   }
 
+  
   const number = parseInt(numberParam);
 
-  // Check if the number is a valid integer
   if (isNaN(number)) {
     return res.status(400).json({
       number: numberParam,
-      error: true,
-    });
-  }
-
-  if (number < 0) {
-    return res.status(400).json({
-      number: number,
       error: true,
     });
   }
@@ -85,6 +86,16 @@ app.get("/api/classify-number", async (req, res) => {
   // Check for Armstrong
   if (isArmstrong(number)) {
     properties.push("armstrong");
+  }
+
+  // Check for prime
+  if (isPrime(number)) {
+    properties.push("prime");
+  }
+
+  // Check for perfect number
+  if (isPerfect(number)) {
+    properties.push("perfect");
   }
 
   // Check for even/odd
