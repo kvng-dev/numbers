@@ -59,7 +59,9 @@ async function getFunFact(n) {
 }
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Number Classification API!");
+  res.json({
+    message: "Welcome to the number generator API",
+  });
 });
 
 // API Route
