@@ -78,9 +78,10 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-  const number = parseInt(numberParam);
+  const number = parseFloat(numberParam);
 
-  if (isNaN(number)) {
+
+  if (isNaN(number) || number !== parseInt(number)) {
     return res.status(400).json({
       number: numberParam,
       error: true,
