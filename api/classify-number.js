@@ -34,7 +34,6 @@ function isArmstrong(n) {
 }
 
 function digitSum(n) {
-
   if (n < 0) {
     n = Math.abs(n); // Take absolute value for digit sum calculation
     return -n
@@ -58,6 +57,10 @@ async function getFunFact(n) {
     return `Error fetching fun fact for ${n}`;
   }
 }
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Number Classification API!");
+});
 
 // API Route
 
