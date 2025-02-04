@@ -9,32 +9,40 @@ app.use(cors({ origin: "*" }));
 // Helper Functions
 
 function isPrime(n) {
-  if (n < 0) return false; 
+  if (n < 0) return false;
   if (n <= 1) return false;
   for (let i = 2; i <= Math.sqrt(n); i++) {
-    if (n % i === 0) return false; 
+    if (n % i === 0) return false;
   }
   return true;
 }
 
 function isPerfect(n) {
-  if (n < 0) return false; 
+  if (n < 0) return false;
   const divisors = [];
   for (let i = 1; i < n; i++) {
     if (n % i === 0) divisors.push(i);
   }
-  return divisors.reduce((sum, num) => sum + num, 0) === n; 
+  return divisors.reduce((sum, num) => sum + num, 0) === n;
 }
 
 function isArmstrong(n) {
-  if (n < 0) return false; 
+  if (n < 0) return false;
   const digits = n.toString().split("").map(Number);
   const power = digits.length;
-  return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === n; 
+  return digits.reduce((sum, digit) => sum + Math.pow(digit, power), 0) === n;
 }
 
 function digitSum(n) {
-  if (n < 0) return null; 
+  // Handle negative integers by preserving the negative sign in the sum
+  if (n < 0) {
+    n = Math.abs(n); // Take absolute value for digit sum calculation
+    return -n
+      .toString()
+      .split("")
+      .reduce((sum, digit) => sum + parseInt(digit), 0);
+  }
+  // Handle positive integers as usual
   return n
     .toString()
     .split("")
@@ -64,14 +72,12 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-  
   if (!numberParam || numberParam.trim() === "") {
     return res.status(400).json({
       error: true,
     });
   }
 
-  
   const number = parseInt(numberParam);
 
   if (isNaN(number)) {
