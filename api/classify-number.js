@@ -66,7 +66,7 @@ app.get("/api/classify-number", async (req, res) => {
 
   if (!numberParam || numberParam.trim() === "") {
     return res.status(400).json({
-      number: numberParam,
+      number: null,
       error: true,
     });
   }
