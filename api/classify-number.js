@@ -34,7 +34,7 @@ function isArmstrong(n) {
 }
 
 function digitSum(n) {
-  // Handle negative integers by preserving the negative sign in the sum
+
   if (n < 0) {
     n = Math.abs(n); // Take absolute value for digit sum calculation
     return -n
@@ -66,13 +66,14 @@ app.get("/api/classify-number", async (req, res) => {
 
   if (!numberParam || numberParam.trim() === "") {
     return res.status(400).json({
+      number: numberParam,
       error: true,
     });
   }
   // Check if 'number' is an alphabetic string (invalid input)
   if (/^[a-zA-Z]+$/.test(numberParam)) {
     return res.status(400).json({
-      number: "alphabet",
+      number: numberParam,
       error: true,
     });
   }
