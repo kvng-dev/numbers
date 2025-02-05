@@ -107,14 +107,14 @@ app.get("/api/classify-number", async (req, res) => {
   }
 
   // Check for prime
-  if (isPrime(number)) {
-    properties.push("prime");
-  }
+  // if (isPrime(number)) {
+  //   // properties.push("prime");
+  // }
 
-  // Check for perfect number
-  if (isPerfect(number)) {
-    properties.push("perfect");
-  }
+  // // Check for perfect number
+  // if (isPerfect(number)) {
+  //   // properties.push("perfect");
+  // }
 
   // Check for even/odd
   if (number % 2 === 0) {
