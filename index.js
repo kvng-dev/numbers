@@ -17,14 +17,18 @@ function isPrime(n) {
   return true;
 }
 
-function isPerfect(n) {
-  if (n < 0) return false;
-  const divisors = [];
-  for (let i = 1; i < n; i++) {
-    if (n % i === 0) divisors.push(i);
+const isPerfect = (n) => {
+  if (n < 2) return false;
+  let sum = 1;
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) {
+      sum += i;
+      if (i !== n / i) sum += n / i;
+    }
   }
-  return divisors.reduce((sum, num) => sum + num, 0) === n;
-}
+
+  return sum === n;
+};
 
 function isArmstrong(n) {
   if (n < 0) return false;
@@ -97,7 +101,7 @@ app.get("/api/classify-number", async (req, res) => {
     });
   }
 
-  const number = numberParam;
+  const number = Number(numberParam);
 
   const properties = [];
 
